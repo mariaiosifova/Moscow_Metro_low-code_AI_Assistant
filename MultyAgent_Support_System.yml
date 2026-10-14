@@ -1,0 +1,398 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: MultyAgent_Support_System
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:1.0.7@f36c3761167b3af0bfb4975b728fe3cd126342d076e1ec5359e6d4f92557d3d4
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.23@f500332838ed670d0962a4f727618a2eb7e27a453ea56e72a28731f5f383ab72
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        knowledge_file_size_limit: 15
+        single_chunk_attachment_limit: 10
+        skill_file_size_limit: 50
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1791970094626-llm
+      selected: false
+      source: '1791970094626'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: if-else
+      id: llm-source-1791970991309-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: '1791970991309'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1791970991309-true-1791971108849-target
+      selected: false
+      source: '1791970991309'
+      sourceHandle: 'true'
+      target: '1791971108849'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1791971108849-source-1791971214853-target
+      selected: false
+      source: '1791971108849'
+      sourceHandle: source
+      target: '1791971214853'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1791971214853-source-answer-target
+      selected: false
+      source: '1791971214853'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1791970991309-false-1791971376674-target
+      source: '1791970991309'
+      sourceHandle: 'false'
+      target: '1791971376674'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1791971376674-source-answer-target
+      source: '1791971376674'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: Начало
+        type: start
+        variables: []
+      height: 73
+      id: '1791970094626'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 7d269b87-c786-44e1-b390-b60e9a362b34
+          role: system
+          text: 'Ты - менеджер Московского метрополитена. Ты умеешь отвечать только
+            двумя словами, либо KNOWLEDGE, либо ACTION. KNOWLEDGE ты отвечаешь, если
+            человек спрашивает о правилах провоза багажа, как вести себя на эскалаторе,
+            со скольки лет можно находиться в метро одному, в общем, если человек
+            интересуется правилами Московского метрополитена. ACTION ты отвечаешь,
+            если человек хочет совершить какое-то действие, например, узнать статус
+            готовности Карты Москвича, вызвать помощь или посмотреть расписание МЦК.
+            Не пиши никаких других слов, объяснений, знаков препинание. Твой ответ
+            - одно слово: ACTION или KNOWLEDGE'
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: 352.19845074178943
+        y: 303
+      positionAbsolute:
+        x: 352.19845074178943
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: '{{#1791971214853.text#}}
+
+          {{#1791971376674.text#}}'
+        selected: false
+        title: Ответ
+        type: answer
+        variables: []
+      height: 103
+      id: answer
+      position:
+        x: 1512.961487894349
+        y: 352.8280338989811
+      positionAbsolute:
+        x: 1512.961487894349
+        y: 352.8280338989811
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: b8c4b55a-a003-4938-b23a-7af1804420f5
+            value: KNOWLEDGE
+            varType: string
+            variable_selector:
+            - llm
+            - text
+          logical_operator: and
+        selected: false
+        title: ЕСЛИ/ИНАЧЕ
+        type: if-else
+      height: 148
+      id: '1791970991309'
+      position:
+        x: 672.2155662077009
+        y: 303
+      positionAbsolute:
+        x: 672.2155662077009
+        y: 303
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        dataset_ids:
+        - lCiPaxvKdy/iEHO/8kmid2mkUo4KPu50qQSp4s2Y5dOztZI0ColORKzUx2LMsDOe
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: qwen3-rerank
+            provider: langgenius/tongyi/tongyi
+          top_k: 4
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1791970094626'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: Поиск знаний
+        type: knowledge-retrieval
+      height: 90
+      id: '1791971108849'
+      position:
+        x: 959.7587605934316
+        y: 216.0444115485854
+      positionAbsolute:
+        x: 959.7587605934316
+        y: 216.0444115485854
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1791971108849'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 1622e2ed-1d75-4c01-aa42-31c68e85bef9
+          role: system
+          text: 'Ты - вежливый работник Московского Метрополитена. Ответь на вопрос
+            пользователя, использую исключительно информацию из предоставленной тебе
+            базы знаний
+
+            Контекст: {{#context#}}'
+        selected: false
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1791971214853'
+      position:
+        x: 1237.2933972462065
+        y: 216.0444115485854
+      positionAbsolute:
+        x: 1237.2933972462065
+        y: 216.0444115485854
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: af860d10-2a8e-4386-a963-c3a1e6f9f1ff
+          role: system
+          text: Пользователь хочет совершить действие. Поскольку это симуляция, вежливо
+            скажи, что его запрос зафиксирован, и выведи интент, который определил
+            роутер
+        selected: false
+        title: LLM 3
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1791971376674'
+      position:
+        x: 959.7587605934316
+        y: 444.01792690781485
+      positionAbsolute:
+        x: 959.7587605934316
+        y: 444.01792690781485
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    viewport:
+      x: -866.8079446029418
+      y: 116.91591504152177
+      zoom: 0.8992304625835504
+  rag_pipeline_variables: []
